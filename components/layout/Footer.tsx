@@ -81,7 +81,12 @@ export default function Footer() {
 
         <div className="mt-12 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-zinc-600">
           <p>© {new Date().getFullYear()} DGR Veículos. Todos os direitos reservados.</p>
-          <p>CNPJ: 00.000.000/0001-00</p>
+          <div className="flex items-center gap-4">
+            <p>CNPJ: 00.000.000/0001-00</p>
+            <Link href="/admin" className="hover:text-zinc-400 transition-colors">
+              Área restrita
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

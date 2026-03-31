@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Lock, Mail } from "lucide-react";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,8 +21,7 @@ export default function LoginPage() {
     if (error) {
       toast.error("Credenciais inválidas. Verifique e tente novamente.");
     } else {
-      router.push("/admin");
-      router.refresh();
+      window.location.href = "/admin";
     }
     setLoading(false);
   }
