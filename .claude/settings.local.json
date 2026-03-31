@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv /c/Users/atend/projetos/dgrveiculos/README.md /c/Users/atend/projetos/dgrveiculos/README.old.md)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --yes)",
+      "Bash(rm /c/Users/atend/projetos/dgrveiculos/README.old.md)"
+    ]
+  }
+}
