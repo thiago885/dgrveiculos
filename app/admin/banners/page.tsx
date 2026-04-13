@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { toast } from "sonner";
-import { ImageIcon, Plus, Trash2, Save, Loader2 } from "lucide-react";
+import { ImageIcon, Plus, Trash2, Save, Loader2, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -236,6 +236,8 @@ function TrustSectionTab() {
   const supabase = createClient();
   const [id, setId] = useState("");
   const [imagem, setImagem] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [anos, setAnos] = useState("12");
@@ -243,6 +245,7 @@ function TrustSectionTab() {
   const [novoItem, setNovoItem] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const videoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -250,6 +253,7 @@ function TrustSectionTab() {
       if (data) {
         setId(data.id);
         setImagem(data.imagem);
+        setVideoUrl(data.video_url ?? "");
         setTitulo(data.titulo);
         setDescricao(data.descricao);
         setAnos(String(data.anos_experiencia));
@@ -259,10 +263,27 @@ function TrustSectionTab() {
     })();
   }, []);
 
+  async function handleVideoUpload(file: File) {
+    if (!file.type.startsWith("video/")) { toast.error("Selecione um arquivo de vídeo."); return; }
+    setUploadingVideo(true);
+    const ext = file.name.split(".").pop();
+    const name = `videos/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { data, error } = await supabase.storage.from("vehicles").upload(name, file, { cacheControl: "3600", upsert: false });
+    if (error) {
+      toast.error(`Erro ao enviar vídeo: ${error.message}`);
+    } else {
+      const { data: url } = supabase.storage.from("vehicles").getPublicUrl(data.path);
+      setVideoUrl(url.publicUrl);
+      toast.success("Vídeo enviado!");
+    }
+    setUploadingVideo(false);
+  }
+
   async function handleSave() {
     setSaving(true);
     const payload = {
       imagem,
+      video_url: videoUrl || null,
       titulo,
       descricao,
       anos_experiencia: Number(anos),
@@ -298,7 +319,64 @@ function TrustSectionTab() {
     <div className="space-y-6">
       <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-6 space-y-5">
         <h3 className="text-sm font-semibold text-zinc-900">Imagem da seção</h3>
+        <p className="text-xs text-zinc-400">Usada quando não há vídeo configurado.</p>
         <BannerImagePicker value={imagem} onChange={setImagem} />
+      </div>
+
+      <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-zinc-900">Vídeo da seção</h3>
+          <span className="text-xs text-zinc-400">Substitui a imagem quando definido</span>
+        </div>
+
+        {/* Preview */}
+        {videoUrl && (
+          <div className="relative rounded-xl overflow-hidden bg-zinc-100" style={{ aspectRatio: "16/7" }}>
+            {videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be") ? (
+              <iframe src={videoUrl} className="w-full h-full" allowFullScreen />
+            ) : (
+              <video src={videoUrl} className="w-full h-full object-cover" controls />
+            )}
+            <button
+              type="button"
+              onClick={() => setVideoUrl("")}
+              className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-700"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
+
+        {/* Upload MP4 */}
+        <div>
+          <input
+            ref={videoInputRef}
+            type="file"
+            accept="video/*"
+            className="hidden"
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleVideoUpload(f); e.target.value = ""; }}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-2 w-full"
+            onClick={() => videoInputRef.current?.click()}
+            disabled={uploadingVideo}
+          >
+            {uploadingVideo ? <Loader2 className="h-4 w-4 animate-spin" /> : <Video className="h-4 w-4" />}
+            {uploadingVideo ? "Enviando..." : "Fazer upload de vídeo (MP4)"}
+          </Button>
+        </div>
+
+        {/* URL manual (YouTube ou link direto) */}
+        <div className="space-y-1.5">
+          <Label>Ou cole uma URL (YouTube, MP4 direto)</Label>
+          <Input
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="https://youtube.com/watch?v=... ou https://..."
+          />
+        </div>
       </div>
 
       <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-6 space-y-4">

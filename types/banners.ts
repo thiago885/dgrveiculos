@@ -15,5 +15,6 @@ export interface TrustSection {
   descricao: string;
   anos_experiencia: number;
   itens: string[];
+  video_url: string | null;
   updated_at: string;
 }

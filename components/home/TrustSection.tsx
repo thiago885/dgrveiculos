@@ -6,6 +6,16 @@ import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 import type { TrustSection as TrustData } from "@/types/banners";
 
+function isYouTube(url: string) {
+  return url.includes("youtube.com") || url.includes("youtu.be");
+}
+
+function toYouTubeEmbed(url: string) {
+  const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const id = match?.[1];
+  return id ? `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}` : url;
+}
+
 const FALLBACK: TrustData = {
   id: "",
   imagem: "https://images.unsplash.com/photo-1562016600-ece13e8ba570?w=800&q=80",
@@ -21,6 +31,7 @@ const FALLBACK: TrustData = {
     "Financiamento em até 60x",
     "Aceita seu veículo na troca",
   ],
+  video_url: null,
   updated_at: "",
 };
 
@@ -37,7 +48,7 @@ export default function TrustSection({ data: dataProp }: TrustSectionProps) {
     <section ref={ref} id="sobre" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Image */}
+          {/* Image or Video */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -45,12 +56,32 @@ export default function TrustSection({ data: dataProp }: TrustSectionProps) {
             className="relative"
           >
             <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-100">
-              <Image
-                src={data.imagem}
-                alt="DGR Veículos"
-                fill
-                className="object-cover"
-              />
+              {data.video_url ? (
+                isYouTube(data.video_url) ? (
+                  <iframe
+                    src={toYouTubeEmbed(data.video_url)}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={data.video_url}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                )
+              ) : (
+                <Image
+                  src={data.imagem}
+                  alt="DGR Veículos"
+                  fill
+                  className="object-cover"
+                />
+              )}
             </div>
             <div className="absolute -bottom-6 -right-6 bg-red-600 text-white rounded-2xl px-6 py-4 shadow-xl">
               <div className="text-3xl font-black">{data.anos_experiencia}+</div>
