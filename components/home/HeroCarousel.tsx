@@ -12,6 +12,7 @@ const FALLBACK_SLIDES: HeroBanner[] = [
   {
     id: "1",
     imagem: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1920&q=80",
+    imagem_mobile: null,
     titulo: "Seminovos de Alto Padrão",
     subtitulo: "Cada veículo selecionado com critério. Qualidade que você sente ao volante.",
     ativo: true,
@@ -21,6 +22,7 @@ const FALLBACK_SLIDES: HeroBanner[] = [
   {
     id: "2",
     imagem: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1920&q=80",
+    imagem_mobile: null,
     titulo: "Procedência Garantida",
     subtitulo: "Histórico completo, revisão em dia e documentação 100% regularizada.",
     ativo: true,
@@ -30,6 +32,7 @@ const FALLBACK_SLIDES: HeroBanner[] = [
   {
     id: "3",
     imagem: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&q=80",
+    imagem_mobile: null,
     titulo: "Encontre Seu Veículo Ideal",
     subtitulo: "Mais de 50 modelos em estoque. Financiamento facilitado e melhores condições.",
     ativo: true,
@@ -75,14 +78,26 @@ export default function HeroCarousel({ slides: slidesProp }: HeroCarouselProps) 
             animate={{ scale: 1.08 }}
             transition={{ duration: 7, ease: "linear" }}
           >
+            {/* Desktop */}
             <Image
               src={slides[current].imagem}
               alt={slides[current].titulo}
               fill
               priority
-              className="object-cover"
+              className={`object-cover ${slides[current].imagem_mobile ? "hidden md:block" : "block"}`}
               sizes="100vw"
             />
+            {/* Mobile */}
+            {slides[current].imagem_mobile && (
+              <Image
+                src={slides[current].imagem_mobile}
+                alt={slides[current].titulo}
+                fill
+                priority
+                className="object-cover block md:hidden"
+                sizes="100vw"
+              />
+            )}
           </motion.div>
 
           {/* Overlay */}

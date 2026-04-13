@@ -1,6 +1,7 @@
 export interface HeroBanner {
   id: string;
   imagem: string;
+  imagem_mobile: string | null;
   titulo: string;
   subtitulo: string | null;
   ativo: boolean;

@@ -94,6 +94,7 @@ function HeroBannersTab() {
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [imagem, setImagem] = useState("");
+  const [imagemMobile, setImagemMobile] = useState("");
   const [titulo, setTitulo] = useState("");
   const [subtitulo, setSubtitulo] = useState("");
 
@@ -115,6 +116,7 @@ function HeroBannersTab() {
     setSaving(true);
     const { error } = await supabase.from("banners").insert({
       imagem,
+      imagem_mobile: imagemMobile || null,
       titulo,
       subtitulo: subtitulo || null,
       ordem: banners.length,
@@ -124,7 +126,7 @@ function HeroBannersTab() {
     } else {
       toast.success("Banner adicionado!");
       setShowForm(false);
-      setImagem(""); setTitulo(""); setSubtitulo("");
+      setImagem(""); setImagemMobile(""); setTitulo(""); setSubtitulo("");
       fetchBanners();
     }
     setSaving(false);
@@ -164,9 +166,16 @@ function HeroBannersTab() {
       {showForm && (
         <form onSubmit={handleAdd} className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-6 space-y-4">
           <h3 className="text-sm font-semibold text-zinc-900">Novo slide do Hero</h3>
-          <div className="space-y-1.5">
-            <Label>Imagem *</Label>
-            <BannerImagePicker value={imagem} onChange={setImagem} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="space-y-1.5">
+              <Label>Imagem Desktop *</Label>
+              <BannerImagePicker value={imagem} onChange={setImagem} />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Imagem Mobile <span className="text-zinc-400 font-normal">(opcional)</span></Label>
+              <p className="text-xs text-zinc-400">Proporção vertical recomendada: 9:16</p>
+              <BannerImagePicker value={imagemMobile} onChange={setImagemMobile} />
+            </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
