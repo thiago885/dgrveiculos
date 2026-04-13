@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -35,15 +36,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex flex-col leading-none">
-              <span className="text-2xl font-black tracking-tight text-zinc-900">
-                DGR
-              </span>
-              <span className="text-[10px] font-semibold tracking-[0.2em] text-red-600 uppercase">
-                Veículos
-              </span>
-            </div>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="https://qafyuyhxmxaizprmatyz.supabase.co/storage/v1/object/public/img/dgr_logo.png"
+              alt="DGR Veículos"
+              width={120}
+              height={48}
+              className="h-14 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Nav desktop */}
@@ -62,13 +63,13 @@ export default function Header() {
           {/* CTA desktop */}
           <div className="hidden md:flex items-center gap-3">
             <a
-              href="https://wa.me/5500000000000"
+              href="https://wa.me/5519998256619"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
             >
               <Phone className="h-4 w-4" />
-              <span>(00) 00000-0000</span>
+              <span>(19) 99825-6619</span>
             </a>
             <Button asChild size="sm" className="bg-red-600 hover:bg-red-700 text-white">
               <Link href="/catalogo">Ver Estoque</Link>

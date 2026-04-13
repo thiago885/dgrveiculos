@@ -1,30 +1,62 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { getVehicleById } from "@/lib/vehicles";
+import { getVehicleBySlug, getVehicleById } from "@/lib/vehicles";
 import { formatPrice, formatKm } from "@/lib/format";
 import VehicleGallery from "@/components/catalog/VehicleGallery";
 import VehicleWhatsApp from "@/components/catalog/VehicleWhatsApp";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Fuel, Gauge, Settings2, Palette, Car, CheckCircle2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { buildVehicleSchema, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
+}
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+async function getVehicle(slug: string) {
+  if (UUID_REGEX.test(slug)) return getVehicleById(slug);
+  return getVehicleBySlug(slug);
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const vehicle = await getVehicleById(id);
+  const { slug } = await params;
+  const vehicle = await getVehicle(slug);
   if (!vehicle) return { title: "Veículo não encontrado" };
+
+  const title = `${vehicle.marca} ${vehicle.modelo}${vehicle.versao ? " " + vehicle.versao : ""} ${vehicle.ano_fabricacao}`;
+  const description =
+    vehicle.descricao_vendedor ||
+    `${vehicle.marca} ${vehicle.modelo} ${vehicle.versao ?? ""} ${vehicle.ano_fabricacao}/${vehicle.ano_modelo}, ${formatKm(vehicle.quilometragem)}, ${vehicle.combustivel}. ${formatPrice(vehicle.preco_venda)} — ${SITE_NAME}.`;
+  const image = vehicle.foto_principal || vehicle.fotos?.[0];
+  const url = `${SITE_URL}/catalogo/${vehicle.slug ?? vehicle.id}`;
+
   return {
-    title: `${vehicle.marca} ${vehicle.modelo} ${vehicle.ano_fabricacao} — DGR Veículos`,
-    description: vehicle.descricao_vendedor || `${vehicle.marca} ${vehicle.modelo} ${vehicle.versao} ${vehicle.ano_fabricacao}/${vehicle.ano_modelo}, ${formatKm(vehicle.quilometragem)}.`,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      url,
+      title: `${title} — ${SITE_NAME}`,
+      description,
+      siteName: SITE_NAME,
+      locale: "pt_BR",
+      images: image ? [{ url: image, width: 1200, height: 800, alt: title }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} — ${SITE_NAME}`,
+      description,
+      images: image ? [image] : [],
+    },
   };
 }
 
 export default async function VehicleDetailPage({ params }: PageProps) {
-  const { id } = await params;
-  const vehicle = await getVehicleById(id);
+  const { slug } = await params;
+  const vehicle = await getVehicle(slug);
   if (!vehicle) notFound();
 
   const statusMap = {
@@ -48,6 +80,11 @@ export default async function VehicleDetailPage({ params }: PageProps) {
   ];
 
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(buildVehicleSchema(vehicle)) }}
+    />
     <div className="pt-20 min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
@@ -124,7 +161,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          {vehicle.features && vehicle.features.length > 0 && (
+          {Array.isArray(vehicle.features) && vehicle.features.length > 0 && (
             <div className="bg-white rounded-2xl border border-zinc-100 shadow-sm p-6">
               <h2 className="text-lg font-bold text-zinc-900 mb-4">Opcionais</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -140,5 +177,7 @@ export default async function VehicleDetailPage({ params }: PageProps) {
         </div>
       </div>
     </div>
+    </>
+
   );
 }

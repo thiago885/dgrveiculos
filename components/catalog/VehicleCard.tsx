@@ -19,7 +19,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const photo = vehicle.foto_principal || vehicle.fotos?.[0] || "/placeholder-car.jpg";
 
   return (
-    <Link href={`/catalogo/${vehicle.id}`} className="group block">
+    <Link href={`/catalogo/${vehicle.slug ?? vehicle.id}`} className="group block">
       <div className="bg-white rounded-2xl overflow-hidden border border-zinc-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
         {/* Image */}
         <div className="relative aspect-[16/10] overflow-hidden bg-zinc-50">

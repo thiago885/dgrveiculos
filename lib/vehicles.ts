@@ -32,6 +32,16 @@ export async function getFeaturedVehicles(): Promise<Vehicle[]> {
   return data as Vehicle[];
 }
 
+export async function getVehicleBySlug(slug: string): Promise<Vehicle | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("vehicles")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+  return data as Vehicle | null;
+}
+
 export async function getVehicleById(id: string): Promise<Vehicle | null> {
   const supabase = await createClient();
   const { data, error } = await supabase

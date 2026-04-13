@@ -23,6 +23,7 @@ export interface Vehicle {
   features: string[];
   fotos: string[];
   foto_principal: string | null;
+  slug: string | null;
   created_at: string;
   updated_at: string;
 }

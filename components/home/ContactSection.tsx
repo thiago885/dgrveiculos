@@ -21,12 +21,12 @@ export default function ContactSection() {
             {
               icon: MapPin,
               title: "Localização",
-              lines: ["Rua das Palmeiras, 1500", "Bairro Centro — Cidade/UF"],
+              lines: ["Rua do Ósmio, 1459", "Santa Bárbara d'Oeste - SP"],
             },
             {
               icon: Phone,
               title: "Telefone & WhatsApp",
-              lines: ["(00) 00000-0000", "Atendimento via WhatsApp"],
+              lines: ["(19) 99825-6619", "Atendimento via WhatsApp"],
             },
             {
               icon: Clock,
@@ -56,7 +56,7 @@ export default function ContactSection() {
             className="bg-[#25D366] hover:bg-[#22c55e] text-white font-semibold gap-2"
           >
             <a
-              href="https://wa.me/5500000000000?text=Olá! Vim pelo site da DGR Veículos."
+              href="https://wa.me/5519998256619?text=Olá! Vim pelo site da DGR Veículos."
               target="_blank"
               rel="noopener noreferrer"
             >

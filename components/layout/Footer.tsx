@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPin, Phone, Clock } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -8,11 +9,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <div className="flex flex-col leading-none mb-4">
-              <span className="text-3xl font-black text-white">DGR</span>
-              <span className="text-[10px] font-semibold tracking-[0.2em] text-red-500 uppercase">
-                Veículos
-              </span>
+            <div className="mb-4">
+              <Image
+                src="https://qafyuyhxmxaizprmatyz.supabase.co/storage/v1/object/public/img/dgr_logo.png"
+                alt="DGR Veículos"
+                width={120}
+                height={48}
+                className="h-14 w-auto object-contain"
+              />
             </div>
             <p className="text-sm leading-relaxed text-zinc-500">
               Especialistas em seminovos de alto padrão. Qualidade, procedência e
@@ -60,12 +64,12 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
-                <span>Rua das Palmeiras, 1500 — Bairro Centro, Cidade - UF</span>
+                <span>Rua do Ósmio, 1459 — Santa Bárbara d'Oeste - SP</span>
               </li>
               <li className="flex gap-3 text-sm">
                 <Phone className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
-                <a href="tel:+5500000000000" className="hover:text-white transition-colors">
-                  (00) 00000-0000
+                <a href="tel:+5519998256619" className="hover:text-white transition-colors">
+                  (19) 99825-6619
                 </a>
               </li>
               <li className="flex gap-3 text-sm">

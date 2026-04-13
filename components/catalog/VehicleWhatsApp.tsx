@@ -10,7 +10,7 @@ interface VehicleWhatsAppProps {
   phone?: string;
 }
 
-export default function VehicleWhatsApp({ vehicle, phone = "5500000000000" }: VehicleWhatsAppProps) {
+export default function VehicleWhatsApp({ vehicle, phone = "5519998256619" }: VehicleWhatsAppProps) {
   const preco = vehicle.preco_promocional && vehicle.preco_promocional < vehicle.preco_venda
     ? vehicle.preco_promocional
     : vehicle.preco_venda;

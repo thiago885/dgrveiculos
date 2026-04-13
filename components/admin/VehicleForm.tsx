@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { createClient } from "@/lib/supabase/client";
 import type { Vehicle } from "@/types/vehicle";
+import { generateVehicleSlug } from "@/lib/slug";
 import ImageUpload from "./ImageUpload";
 import { Sparkles, Save } from "lucide-react";
 
@@ -91,6 +92,10 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
     e.preventDefault();
     setLoading(true);
 
+    const slug = isEdit && vehicle.slug
+      ? vehicle.slug
+      : generateVehicleSlug(marca, modelo, versao, Number(ano));
+
     const payload = {
       marca,
       modelo,
@@ -111,6 +116,7 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
       features: opcionais,
       fotos,
       foto_principal: fotos[0] || null,
+      slug,
     };
 
     const supabase = createClient();

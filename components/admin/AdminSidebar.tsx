@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Car, LogOut } from "lucide-react";
+import { LayoutDashboard, Car, Users, ImageIcon, LogOut } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
@@ -10,6 +11,8 @@ import { toast } from "sonner";
 const links = [
   { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/admin/veiculos", icon: Car, label: "Veículos" },
+  { href: "/admin/banners", icon: ImageIcon, label: "Banners" },
+  { href: "/admin/usuarios", icon: Users, label: "Usuários" },
 ];
 
 export default function AdminSidebar() {
@@ -27,12 +30,13 @@ export default function AdminSidebar() {
     <aside className="w-64 shrink-0 bg-white border-r border-zinc-100 min-h-screen flex flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-zinc-100">
-        <div className="flex flex-col leading-none">
-          <span className="text-2xl font-black text-zinc-900">DGR</span>
-          <span className="text-[10px] font-semibold tracking-[0.2em] text-red-600 uppercase">
-            Admin
-          </span>
-        </div>
+        <Image
+          src="https://qafyuyhxmxaizprmatyz.supabase.co/storage/v1/object/public/img/dgr_logo.png"
+          alt="DGR Veículos"
+          width={120}
+          height={48}
+          className="h-14 w-auto object-contain"
+        />
       </div>
 
       {/* Nav */}

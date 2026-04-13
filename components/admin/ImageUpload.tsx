@@ -30,7 +30,8 @@ export default function ImageUpload({ fotos, onChange }: ImageUploadProps) {
         .upload(name, file, { cacheControl: "3600", upsert: false });
 
       if (error) {
-        toast.error(`Erro ao enviar ${file.name}`);
+        toast.error(`Erro ao enviar ${file.name}: ${error.message}`);
+        console.error("Storage error:", error);
         continue;
       }
 

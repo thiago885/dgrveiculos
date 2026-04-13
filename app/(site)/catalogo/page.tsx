@@ -1,4 +1,20 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Estoque de Seminovos",
+  description: `Confira o estoque completo de seminovos de alto padrão da ${SITE_NAME} em Santa Bárbara d'Oeste - SP. Filtros por marca, modelo, preço e combustível.`,
+  alternates: { canonical: `${SITE_URL}/catalogo` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/catalogo`,
+    title: `Estoque de Seminovos — ${SITE_NAME}`,
+    description: `Confira o estoque completo de seminovos de alto padrão da ${SITE_NAME} em Santa Bárbara d'Oeste - SP.`,
+    locale: "pt_BR",
+    siteName: SITE_NAME,
+  },
+};
 import VehicleFilters from "@/components/catalog/VehicleFilters";
 import VehicleCard from "@/components/catalog/VehicleCard";
 import VehicleCardSkeleton from "@/components/catalog/VehicleCardSkeleton";

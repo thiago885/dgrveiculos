@@ -6,26 +6,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { HeroBanner } from "@/types/banners";
 
-const slides = [
+const FALLBACK_SLIDES: HeroBanner[] = [
   {
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1920&q=80",
-    title: "Seminovos de Alto Padrão",
-    subtitle: "Cada veículo selecionado com critério. Qualidade que você sente ao volante.",
+    id: "1",
+    imagem: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1920&q=80",
+    titulo: "Seminovos de Alto Padrão",
+    subtitulo: "Cada veículo selecionado com critério. Qualidade que você sente ao volante.",
+    ativo: true,
+    ordem: 0,
+    created_at: "",
   },
   {
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1920&q=80",
-    title: "Procedência Garantida",
-    subtitle: "Histórico completo, revisão em dia e documentação 100% regularizada.",
+    id: "2",
+    imagem: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1920&q=80",
+    titulo: "Procedência Garantida",
+    subtitulo: "Histórico completo, revisão em dia e documentação 100% regularizada.",
+    ativo: true,
+    ordem: 1,
+    created_at: "",
   },
   {
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&q=80",
-    title: "Encontre Seu Veículo Ideal",
-    subtitle: "Mais de 50 modelos em estoque. Financiamento facilitado e melhores condições.",
+    id: "3",
+    imagem: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&q=80",
+    titulo: "Encontre Seu Veículo Ideal",
+    subtitulo: "Mais de 50 modelos em estoque. Financiamento facilitado e melhores condições.",
+    ativo: true,
+    ordem: 2,
+    created_at: "",
   },
 ];
 
-export default function HeroCarousel() {
+interface HeroCarouselProps {
+  slides?: HeroBanner[];
+}
+
+export default function HeroCarousel({ slides: slidesProp }: HeroCarouselProps) {
+  const slides = slidesProp && slidesProp.length > 0 ? slidesProp : FALLBACK_SLIDES;
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -33,7 +51,7 @@ export default function HeroCarousel() {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
   const next = () => setCurrent((c) => (c + 1) % slides.length);
@@ -58,8 +76,8 @@ export default function HeroCarousel() {
             transition={{ duration: 7, ease: "linear" }}
           >
             <Image
-              src={slides[current].image}
-              alt={slides[current].title}
+              src={slides[current].imagem}
+              alt={slides[current].titulo}
               fill
               priority
               className="object-cover"
@@ -98,18 +116,20 @@ export default function HeroCarousel() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight"
                 >
-                  {slides[current].title}
+                  {slides[current].titulo}
                 </motion.h1>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="text-lg text-white/80 leading-relaxed max-w-lg"
-                >
-                  {slides[current].subtitle}
-                </motion.p>
+                {slides[current].subtitulo && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="text-lg text-white/80 leading-relaxed max-w-lg"
+                  >
+                    {slides[current].subtitulo}
+                  </motion.p>
+                )}
 
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -131,7 +151,7 @@ export default function HeroCarousel() {
                     className="border-white/40 text-white hover:bg-white/10 bg-transparent"
                   >
                     <a
-                      href="https://wa.me/5500000000000"
+                      href="https://wa.me/5519998256619"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
