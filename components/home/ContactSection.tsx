@@ -21,7 +21,7 @@ export default function ContactSection() {
             {
               icon: MapPin,
               title: "Localização",
-              lines: ["Rua do Ósmio, 1459", "Santa Bárbara d'Oeste - SP"],
+              lines: ["Rua do Ósmio, 1445", "Santa Bárbara d'Oeste - SP"],
             },
             {
               icon: Phone,

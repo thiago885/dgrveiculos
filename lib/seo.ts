@@ -4,7 +4,7 @@ export const SITE_DESCRIPTION =
   "Especialistas em seminovos de alto padrão em Santa Bárbara d'Oeste - SP. Qualidade, procedência e transparência em cada negócio. Financiamento facilitado.";
 export const SITE_PHONE = "+5519998256619";
 export const SITE_ADDRESS = {
-  street: "Rua do Ósmio, 1459",
+  street: "Rua do Ósmio, 1445",
   city: "Santa Bárbara d'Oeste",
   state: "SP",
   country: "BR",

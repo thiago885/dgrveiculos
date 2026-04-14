@@ -64,7 +64,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
-                <span>Rua do Ósmio, 1459 — Santa Bárbara d'Oeste - SP</span>
+                <span>Rua do Ósmio, 1445 — Santa Bárbara d'Oeste - SP</span>
               </li>
               <li className="flex gap-3 text-sm">
                 <Phone className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
