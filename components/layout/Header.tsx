@@ -40,9 +40,9 @@ export default function Header() {
             <Image
               src="https://qafyuyhxmxaizprmatyz.supabase.co/storage/v1/object/public/img/dgr_logo.png"
               alt="DGR Veículos"
-              width={120}
-              height={48}
-              className="h-14 w-auto object-contain"
+              width={140}
+              height={56}
+              className="h-16 w-auto object-contain"
               priority
             />
           </Link>
