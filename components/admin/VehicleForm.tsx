@@ -50,7 +50,6 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
   const [cambio, setCambio] = useState(vehicle?.tipo_cambio || "");
   const [cor, setCor] = useState(vehicle?.cor_exterior || "");
   const [portas, setPortas] = useState(String(vehicle?.quantidade_portas || "4"));
-  const [placaFinal, setPlacaFinal] = useState(vehicle?.placa_final || "");
   const [status, setStatus] = useState<Vehicle["status_inventario"]>(vehicle?.status_inventario || "disponivel");
   const [destaque, setDestaque] = useState(vehicle?.flag_destaque || false);
   const [descricao, setDescricao] = useState(vehicle?.descricao_vendedor || "");
@@ -109,7 +108,6 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
       tipo_cambio: cambio,
       cor_exterior: cor,
       quantidade_portas: Number(portas),
-      placa_final: placaFinal || null,
       status_inventario: status,
       flag_destaque: destaque,
       descricao_vendedor: descricao || null,
@@ -217,10 +215,6 @@ export default function VehicleForm({ vehicle }: VehicleFormProps) {
                     {["2", "4"].map((n) => <SelectItem key={n} value={n}>{n} portas</SelectItem>)}
                   </SelectContent>
                 </Select>
-              </div>
-              <div className="space-y-1.5">
-                <Label>Final da placa</Label>
-                <Input value={placaFinal} onChange={(e) => setPlacaFinal(e.target.value)} placeholder="7" maxLength={1} />
               </div>
               <div className="space-y-1.5">
                 <Label>Status</Label>
